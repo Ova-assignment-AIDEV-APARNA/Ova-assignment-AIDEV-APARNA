@@ -29,3 +29,5 @@ function serve() {
 
 exports.style = style;
 exports.serve = gulp.series(style, serve);
+exports.default = exports.serve;
+
