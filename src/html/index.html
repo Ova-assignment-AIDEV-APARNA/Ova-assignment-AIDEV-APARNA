@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+  <h1>User Profile Page</h1>
+
+  <!-- Password Update Module -->
+  <section class="password-update">
+    <h2>Update Password</h2>
+    <form id="passwordForm">
+      <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <input type="password" id="newPassword" required minlength="6">
+        <div id="strengthMessage" class="strength-message">Strength: </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" required minlength="6">
+        <div id="matchMessage" class="match-message"></div>
+      </div>
+
+      <button type="submit">Update Password</button>
+    </form>
+  </section>
+
+  <!-- Basic Details Update Module -->
+  <section class="basic-details">
+    <h2>Update Basic Details</h2>
+    <form id="detailsForm">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" required>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea id="address" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="profileImage">Upload Profile Image</label>
+        <input type="file" id="profileImage" accept="image/*">
+        <img id="imagePreview" src="" alt="Image Preview" style="display: none; max-width: 150px; margin-top: 10px;">
+      </div>
+
+      <button type="submit">Save Details</button>
+    </form>
+  </section>
+
+  <!-- Recent Trips Module -->
+  <section class="recent-trips">
+    <h2>Recent Trips</h2>
+    <div class="trips-list">
+      <div class="trip-card">
+        <h3>Trip to Paris</h3>
+        <p><strong>Date:</strong> 2024-08-12</p>
+        <p><strong>Amount:</strong> $350</p>
+        <a href="https://example.com/sample-bill.pdf" target="_blank" class="btn-download">Download Bill</a>
+      </div>
+
+      <div class="trip-card">
+        <h3>Mountain Adventure</h3>
+        <p><strong>Date:</strong> 2024-07-05</p>
+        <p><strong>Amount:</strong> $420</p>
+        <a href="https://example.com/sample-bill.pdf" target="_blank" class="btn-download">Download Bill</a>
+      </div>
+
+      <div class="trip-card">
+        <h3>Beach Holiday</h3>
+        <p><strong>Date:</strong> 2024-05-22</p>
+        <p><strong>Amount:</strong> $280</p>
+        <a href="https://example.com/sample-bill.pdf" target="_blank" class="btn-download">Download Bill</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deactivate Account Module -->
+  <section class="deactivate-account">
+    <h2>DEACTIVATE ACCOUNT</h2>
+    <button id="openModal">Deactivate Account</button>
+
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <h3>Are you sure?</h3>
+        <p>Type <strong>deactivate</strong> below to confirm:</p>
+        <input type="text" id="confirmInput" placeholder="Type here...">
+        <button id="confirmBtn" disabled>Confirm Deactivation</button>
+        <p id="feedbackMessage"></p>
+        <button id="closeModal" class="close">Cancel</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripts for all modules -->
+  <script>
+    // Password Strength + Match
+    const newPassword = document.getElementById("newPassword");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const strengthMessage = document.getElementById("strengthMessage");
+    const matchMessage = document.getElementById("matchMessage");
+
+    newPassword?.addEventListener("input", () => {
+      const val = newPassword.value;
+      let strength = "Weak";
+      if (val.length > 8 && /[A-Z]/.test(val) && /[\d\W]/.test(val)) {
+        strength = "Strong";
+      } else if (val.length >= 6) {
+        strength = "Medium";
+      }
+      strengthMessage.textContent = `Strength: ${strength}`;
+    });
+
+    confirmPassword?.addEventListener("input", () => {
+      if (confirmPassword.value !== newPassword.value) {
+        matchMessage.textContent = "Passwords do not match";
+        matchMessage.style.color = "red";
+      } else {
+        matchMessage.textContent = "Passwords match";
+        matchMessage.style.color = "green";
+      }
+    });
+
+    // Image Preview
+    const profileImage = document.getElementById("profileImage");
+    const imagePreview = document.getElementById("imagePreview");
+
+    profileImage?.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Deactivation Modal
+    const modal = document.getElementById("modal");
+    const openBtn = document.getElementById("openModal");
+    const closeBtn = document.getElementById("closeModal");
+    const confirmInput = document.getElementById("confirmInput");
+    const confirmBtn = document.getElementById("confirmBtn");
+    const feedbackMessage = document.getElementById("feedbackMessage");
+
+    openBtn?.addEventListener("click", () => modal.style.display = "block");
+
+    closeBtn?.addEventListener("click", () => {
+      modal.style.display = "none";
+      confirmInput.value = "";
+      confirmBtn.disabled = true;
+      feedbackMessage.textContent = "";
+    });
+
+    confirmInput?.addEventListener("input", () => {
+      confirmBtn.disabled = confirmInput.value !== "deactivate";
+    });
+
+    confirmBtn?.addEventListener("click", () => {
+      feedbackMessage.textContent = "Account has been deactivated.";
+      feedbackMessage.style.color = "red";
+      confirmBtn.disabled = true;
+    });
+
+    window.onclick = (e) => {
+      if (e.target == modal) {
+        modal.style.display = "none";
+        confirmInput.value = "";
+        confirmBtn.disabled = true;
+        feedbackMessage.textContent = "";
+      }
+    };
+  </script>
+
+</body>
+</html>

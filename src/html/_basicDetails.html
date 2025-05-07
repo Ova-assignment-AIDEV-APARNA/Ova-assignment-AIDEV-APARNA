@@ -1,0 +1,50 @@
+<section class="basic-details">
+    <h2>Update Basic Details</h2>
+    <form id="detailsForm">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea id="address" required></textarea>
+      </div>
+  
+      <div class="form-group">
+        <label for="profileImage">Upload Profile Image</label>
+        <input type="file" id="profileImage" accept="image/*">
+        <img id="imagePreview" src="" alt="Image Preview" style="display: none; max-width: 150px; margin-top: 10px;">
+      </div>
+  
+      <button type="submit">Save Details</button>
+    </form>
+  </section>
+  
+  <script>
+    const profileImage = document.getElementById("profileImage");
+    const imagePreview = document.getElementById("imagePreview");
+  
+    profileImage.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+  
