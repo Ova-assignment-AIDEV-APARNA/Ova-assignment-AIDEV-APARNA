@@ -4,6 +4,26 @@ const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const cleanCSS = require('gulp-clean-css');
 const browserSync = require('browser-sync').create();
+const del =require('del');
+gulp.task('clean', () => del(['dist']));
+
+gulp.task('clean', () => del(['dist']));
+
+// Compile styles
+gulp.task('style', () => {
+  return gulp.src('src/scss/**/*.scss')
+    .pipe(sass())
+    .pipe(gulp.dest('dist/css'));
+});
+
+// Copy HTML
+gulp.task('html', () => {
+  return gulp.src('src/html/**/*.html')
+    .pipe(gulp.dest('dist'));
+});
+
+// Build task for Netlify
+gulp.task('build', gulp.series('clean', 'style', 'html'));
 
 // Compile SCSS into CSS
 function style() {
