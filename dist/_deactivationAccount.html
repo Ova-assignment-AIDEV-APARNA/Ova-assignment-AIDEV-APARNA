@@ -1,0 +1,28 @@
+<section class="deactivate-account">
+    <h2>Danger Zone</h2>
+    <button id="openModal">Deactivate Account</button>
+  
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <h3>Are you sure?</h3>
+        <p>Type <strong>deactivate</strong> below to confirm:</p>
+        <input type="text" id="confirmInput" placeholder="Type here...">
+        <button id="confirmBtn" disabled>Confirm Deactivation</button>
+        <p id="feedbackMessage"></p>
+        <button id="closeModal" class="close">Cancel</button>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    const modal = document.getElementById("modal");
+    const openBtn = document.getElementById("openModal");
+    const closeBtn = document.getElementById("closeModal");
+    const confirmInput = document.getElementById("confirmInput");
+    const confirmBtn = document.getElementById("confirmBtn");
+    const feedbackMessage = document.getElementById("feedbackMessage");
+  
+    openBtn.onclick = () => modal.style.display = "block";
+    closeBtn.onclick
+  
