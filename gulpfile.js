@@ -25,8 +25,6 @@ gulp.task('html', () => {
 // Build task for Netlify
 gulp.task('build', gulp.series('clean', 'style', 'html'));
 
-gulp.task('default', gulp.series('style', 'serve'));
-
 // Compile SCSS into CSS
 function style() {
   return gulp.src('src/scss/main.scss')
